@@ -4,12 +4,15 @@ export default class Turmas extends Model {
   static init(sequelize) {
     super.init({
       turma: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        validate: {
+          min: { args: 3, msg: 'deve ser maior que 3 e menor que 20 caracateres' }
+        }
       },
       vagas: {
         type: Sequelize.STRING,
         validate: {
-          isInt: true
+          isInt: { msg: 'deve ser inteiro' }
         }
       }
     },
