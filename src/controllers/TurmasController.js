@@ -50,6 +50,7 @@ class Turmascontroller {
           id: req.params.id
         }
       });
+      res.status(200).json({ message: 'Excluído com sucesso!' });
     } catch (error) {
       res.status(400).json(error.errors);
     }
