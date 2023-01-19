@@ -4,18 +4,18 @@ class Turmascontroller {
   async index(req, res) {
     try {
       const turmasAll = await Turmas.findAll();
-      res.status(200).json(turmasAll);
+      return res.status(200).json(turmasAll);
     } catch (error) {
-      res.status(400).json(error);
+      return res.status(400).json({ errors: error.erros.map((err) => err.message) });
     }
   }
 
   async findById(req, res) {
     try {
       const turmaById = await Turmas.findByPk(req.params.id);
-      res.json(turmaById);
+      return res.json(turmaById);
     } catch (error) {
-      res.status(400).json(error);
+      return res.status(400).json({ errors: error.erros.map((err) => err.message) });
     }
   }
 
@@ -25,9 +25,9 @@ class Turmascontroller {
         turma: req.body.turma,
         vagas: req.body.vagas
       });
-      res.status(201).json(newTurma);
+      return res.status(201).json(newTurma);
     } catch (error) {
-      res.status(400).json(error);
+      return res.status(400).json({ errors: error.erros.map((err) => err.message) });
     }
   }
 
@@ -37,9 +37,9 @@ class Turmascontroller {
         turma: req.body.turma,
         vagas: req.body.vagas
       }, { where: { id: req.params.id } });
-      res.status(200).json({ message: 'Atualizado com sucesso!' });
+      return res.status(200).json({ message: 'Atualizado com sucesso!' });
     } catch (error) {
-      res.status(400).json(error.errors);
+      return res.status(400).json({ errors: error.erros.map((err) => err.message) });
     }
   }
 
@@ -50,9 +50,9 @@ class Turmascontroller {
           id: req.params.id
         }
       });
-      res.status(200).json({ message: 'Excluído com sucesso!' });
+      return res.status(200).json({ message: 'Excluído com sucesso!' });
     } catch (error) {
-      res.status(400).json(error.errors);
+      return res.status(400).json({ errors: error.erros.map((err) => err.message) });
     }
   }
 }

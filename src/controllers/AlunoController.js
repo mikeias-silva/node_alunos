@@ -3,9 +3,9 @@ class AlunoController {
   async index(req, res) {
     try {
       const alunos = await Aluno.findAll();
-      res.json(alunos);
+      return res.status(200).json(alunos);
     } catch (error) {
-      res.status(500).json({ message: 'erro: '.error });
+      return res.status(400).json({ errors: error.erros.map((err) => err.message) });
     }
   }
 
@@ -22,9 +22,9 @@ class AlunoController {
         email,
         idade
       });
-      res.status(201).json(newAluno);
+      return res.status(201).json(newAluno);
     } catch (error) {
-      res.status(400).json(error.errors);
+      return res.status(400).json({ errors: error.erros.map((err) => err.message) });
     }
   }
 
@@ -39,16 +39,15 @@ class AlunoController {
         {
           where: { id: req.body.id }
         });
+      return res.status(200).json({ message: 'Alterado com sucesso!' });
     } catch (error) {
-      res.status(500).json({ message: 'error '.error });
+      return res.status(400).json({ errors: error.erros.map((err) => err.message) });
     }
-    res.status(200).json({ message: 'Alterado com sucesso!' });
   }
 
   async delete(req, res) {
     if (req.params.id === 7) {
-      res.json({ message: 'Não é possível excluior CR7' });
-      return;
+      return res.json({ message: 'Não é possível excluior CR7' });
     }
     try {
       await Aluno.destroy({
@@ -56,22 +55,20 @@ class AlunoController {
           id: req.params.id
         }
       });
-      res.status(200).json({
+      return res.status(200).json({
         message: 'Excluido com sucesso!'
       });
     } catch (error) {
-      res.status(500).json({
-        message: 'error: '.error
-      });
+      return res.status(400).json({ errors: error.erros.map((err) => err.message) });
     }
   }
 
   async findById(req, res) {
-    const aluno = await Aluno.findByPk(req.params.id);
-    if (aluno !== null) {
-      res.json(aluno);
-    } else {
-      res.json({ message: 'Não existe!' });
+    try {
+      const aluno = await Aluno.findByPk(req.params.id);
+      return res.status(200).json(aluno);
+    } catch (error) {
+      return res.status(400).json({ errors: error.erros.map((err) => err.message) });
     }
   }
 }
