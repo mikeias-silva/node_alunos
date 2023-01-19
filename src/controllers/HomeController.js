@@ -1,3 +1,5 @@
+import Aluno from '../models/Alunos';
+
 class HomeController {
   index(req, res) {
     res.json({
@@ -12,6 +14,21 @@ class HomeController {
       nome,
       sobrenome
     });
+  }
+
+  async aluno(req, res) {
+    const novoAluno = await Aluno.create({
+      nome: 'maria',
+      sobrenome: 'joaquina',
+      email: 'email@email.com',
+      idade: 35
+    });
+    res.json(novoAluno);
+  }
+
+  async listaAlunos(req, res) {
+    const todosAlunos = await Aluno.findOne();
+    res.json(todosAlunos);
   }
 }
 

@@ -13,6 +13,7 @@ module.exports = {
   rules: {
     semi: [2, 'always'],
     'class-methods-use-this': 'off',
-    'space-before-function-paren': 'off'
+    'space-before-function-paren': 'off',
+    'import/first': 'off'
   }
 };
