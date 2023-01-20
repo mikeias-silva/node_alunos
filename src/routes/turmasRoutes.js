@@ -4,7 +4,7 @@ import loginMiddleware from '../middlewares/loginMiddleware';
 
 const router = new Router();
 
-router.get('/', loginMiddleware, TurmasController.index);
+router.get('/listAll', loginMiddleware, TurmasController.index);
 router.get('/:id', loginMiddleware, TurmasController.findById);
 router.put('/', loginMiddleware, TurmasController.update);
 router.post('/', loginMiddleware, TurmasController.store);
