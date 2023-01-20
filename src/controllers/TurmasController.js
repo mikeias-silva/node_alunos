@@ -32,7 +32,6 @@ class Turmascontroller {
   async update(req, res) {
     try {
       const turma = await Turmas.findByPk(req.body.id);
-      turma.update(req.body);
       console.log(turma._previousDataValues);
       return res.status(200).json({
         message: 'Atualizado com sucessosss!',

@@ -41,7 +41,8 @@ class Usuarioscontroller {
         });
       }
       usuario.update(req.body);
-      return res.json({ message: 'Alterado com sucesso!' });
+      const novosDados = await usuario.update(req.body);
+      return res.json({ message: 'Alterado com sucesso!', alterado: novosDados });
     } catch (error) {
       return res.status(400).json(error);
     }

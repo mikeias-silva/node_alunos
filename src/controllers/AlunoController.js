@@ -22,8 +22,9 @@ class AlunoController {
   async update(req, res) {
     try {
       const aluno = await Aluno.findByPk(req.body.id);
-      aluno.update(req.body);
-      return res.status(200).json({ message: 'Alterado com sucesso!' });
+      const novosDados = await aluno.update(req.body);
+      const { id, nome, sobrenome, email, idade } = novosDados;
+      return res.status(200).json({ message: 'Alterado com sucesso!', alterado: { id, nome, sobrenome, email, idade } });
     } catch (error) {
       return res.status(400).json({ errors: error.errors.map((err) => err.message) });
     }
