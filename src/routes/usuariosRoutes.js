@@ -1,11 +1,16 @@
 import { Router } from 'express';
 import UsuariosController from '../controllers/UsuariosController.js';
+import loginMiddleware from '../middlewares/loginMiddleware.js';
 const router = new Router();
 
-router.get('/', UsuariosController.index);
-router.get('/:id', UsuariosController.findById);
-router.put('/', UsuariosController.update);
+router.get('/listAll', UsuariosController.index);
+router.get('/', loginMiddleware, UsuariosController.findById);
+router.put('/:id', loginMiddleware, UsuariosController.update);
 router.delete('/', UsuariosController.destroy);
-router.post('/', UsuariosController.store);
+router.post('/', loginMiddleware, UsuariosController.store);
+
+router.get('/teste', loginMiddleware, (req, res) => {
+  res.json({ id: req.userId, username: req.username, email: req.email });
+});
 
 export default router;

@@ -3,56 +3,47 @@ import Usuario from '../models/Usuarios';
 class Usuarioscontroller {
   async index(req, res) {
     try {
-      const usuarios = await Usuario.findAll();
+      const usuarios = await Usuario.findAll({ attributes: ['id', 'username', 'email'] });
       return res.json(usuarios);
     } catch (error) {
-      return res.status(400).json({ errors: error.erros.map((err) => err.message) });
+      return res.status(400).json(error.errors);
     }
   }
 
   async store(req, res) {
-    const username = req.body.username;
-    const password = req.body.password;
-    const email = req.body.email;
     try {
-      const newUsuario = await Usuario.create({
-        username,
-        password,
-        email
-      });
-      return res.status(201).json(newUsuario);
+      const newUsuario = await Usuario.create(req.body);
+      const { id, userna, email } = newUsuario;
+      return res.status(201).json({ id, userna, email });
     } catch (error) {
       console.log(error);
-      return res.status(400).json({ errors: error.erros.map((err) => err.message) });
+      return res.status(400).json(error.errors);
     }
   }
 
   async findById(req, res) {
     try {
-      const findUsuarios = await Usuario.findByPk(req.params.id);
-      return res.json(findUsuarios);
+      const id = req.userId;
+      const findUsuarios = await Usuario.findByPk(id);
+      const { username, email } = findUsuarios;
+      return res.json({ id, username, email });
     } catch (error) {
-      return res.status(400).json({ errors: error.erros.map((err) => err.message) });
+      return res.status(400).json(error.errors);
     }
   }
 
   async update(req, res) {
     try {
-      if (!req.params.id) {
-        return res.status(400).json({
-          errors: ['ID não encontrado!']
-        });
-      }
-      const usuario = await Usuario.findByPk(req.params.id);
+      const usuario = await Usuario.findByPk(req.userId);
       if (!usuario) {
         return res.status(400).json({
-          errors: ['Usuário não existe!']
+          errors: ['Usuário não existe!'], usuario: [usuario]
         });
       }
       usuario.update(req.body);
       return res.json({ message: 'Alterado com sucesso!' });
     } catch (error) {
-      return res.status(400).json({ errors: error.erros.map((err) => err.message) });
+      return res.status(400).json(error);
     }
   }
 
@@ -61,7 +52,7 @@ class Usuarioscontroller {
       await Usuario.destroy({ where: { id: req.params.id } });
       return res.status(200).json({ message: 'Excluído com sucesso!' });
     } catch (error) {
-      return res.status(400).json({ errors: error.erros.map((err) => err.message) });
+      return res.status(400).json(error.errors);
     }
   }
 }
