@@ -1,7 +1,5 @@
 import Usuario from '../models/Usuarios';
-import formidable from 'formidable';
-import fs from 'fs';
-import path from 'path';
+
 class Usuarioscontroller {
   async index(req, res) {
     try {
@@ -56,20 +54,6 @@ class Usuarioscontroller {
       return res.status(200).json({ message: 'Excluído com sucesso!' });
     } catch (error) {
       return res.status(400).json(error.errors);
-    }
-  }
-
-  async uploadFoto(req, res) {
-    const form = new formidable.IncomingForm();
-    try {
-      form.parse(req, (_err, fields, files) => {
-        const oldPath = files.perfil.filepath;
-        const newPath = path.join(__dirname, '..', '..', 'uploads', `${files.perfil.newFilename}_${files.perfil.originalFilename}`);
-        fs.renameSync(oldPath, newPath);
-        return res.send('foto enviada!');
-      });
-    } catch (error) {
-      return res.status(401).json({ error: ['Erro ao enviar foto!', error] });
     }
   }
 }

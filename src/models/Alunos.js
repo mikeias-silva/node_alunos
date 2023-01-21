@@ -17,9 +17,12 @@ export default class Aluno extends Model {
           isInt: true
         }
       }
-    },
-    { sequelize });
+    }, { sequelize });
     return this;
+  }
+
+  static associate(models) {
+    this.hasMany(models.Fotos, { foreignKey: 'aluno_id' });
   }
 }
 // import Sequelize, { Model } from 'sequelize';

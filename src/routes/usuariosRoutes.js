@@ -8,7 +8,6 @@ router.get('/', loginMiddleware, UsuariosController.findById);
 router.put('/:id', loginMiddleware, UsuariosController.update);
 router.delete('/', UsuariosController.destroy);
 router.post('/', loginMiddleware, UsuariosController.store);
-router.post('/:id/foto', loginMiddleware, UsuariosController.uploadFoto);
 
 router.get('/teste', loginMiddleware, (req, res) => {
   res.json({ id: req.userId, username: req.username, email: req.email });
