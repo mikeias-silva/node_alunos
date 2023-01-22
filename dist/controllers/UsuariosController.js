@@ -1,0 +1,61 @@
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _Usuarios = require('../models/Usuarios'); var _Usuarios2 = _interopRequireDefault(_Usuarios);
+
+class Usuarioscontroller {
+  async index(req, res) {
+    try {
+      const usuarios = await _Usuarios2.default.findAll({ attributes: ['id', 'username', 'email'] });
+      return res.json(usuarios);
+    } catch (error) {
+      return res.status(400).json(error.errors);
+    }
+  }
+
+  async store(req, res) {
+    try {
+      const newUsuario = await _Usuarios2.default.create(req.body);
+      const { id, userna, email } = newUsuario;
+      return res.status(201).json({ id, userna, email });
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json(error.errors);
+    }
+  }
+
+  async findById(req, res) {
+    try {
+      const id = req.userId;
+      const findUsuarios = await _Usuarios2.default.findByPk(id);
+      const { username, email } = findUsuarios;
+      return res.json({ id, username, email });
+    } catch (error) {
+      return res.status(400).json(error.errors);
+    }
+  }
+
+  async update(req, res) {
+    try {
+      const usuario = await _Usuarios2.default.findByPk(req.userId);
+      if (!usuario) {
+        return res.status(400).json({
+          errors: ['Usuário não existe!'], usuario: [usuario]
+        });
+      }
+      usuario.update(req.body);
+      const novosDados = await usuario.update(req.body);
+      return res.json({ message: 'Alterado com sucesso!', alterado: novosDados });
+    } catch (error) {
+      return res.status(400).json(error);
+    }
+  }
+
+  async destroy(req, res) {
+    try {
+      await _Usuarios2.default.destroy({ where: { id: req.params.id } });
+      return res.status(200).json({ message: 'Excluído com sucesso!' });
+    } catch (error) {
+      return res.status(400).json(error.errors);
+    }
+  }
+}
+
+exports. default = new Usuarioscontroller();

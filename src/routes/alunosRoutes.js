@@ -4,7 +4,7 @@ import loginMiddleware from '../middlewares/loginMiddleware';
 
 const router = new Router();
 
-router.get('/listAll', loginMiddleware, AlunoController.index);
+router.get('/listAll', AlunoController.index);
 router.get('/:id', loginMiddleware, AlunoController.findById);
 router.put('/', loginMiddleware, AlunoController.update);
 router.post('/', loginMiddleware, AlunoController.store);
