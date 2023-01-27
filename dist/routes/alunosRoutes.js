@@ -4,7 +4,7 @@ var _loginMiddleware = require('../middlewares/loginMiddleware'); var _loginMidd
 
 const router = new (0, _express.Router)();
 
-router.get('/listAll', _loginMiddleware2.default, _AlunoController2.default.index);
+router.get('/listAll', _AlunoController2.default.index);
 router.get('/:id', _loginMiddleware2.default, _AlunoController2.default.findById);
 router.put('/', _loginMiddleware2.default, _AlunoController2.default.update);
 router.post('/', _loginMiddleware2.default, _AlunoController2.default.store);

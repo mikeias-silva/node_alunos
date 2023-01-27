@@ -7,7 +7,7 @@ router.get('/listAll', _UsuariosControllerjs2.default.index);
 router.get('/', _loginMiddlewarejs2.default, _UsuariosControllerjs2.default.findById);
 router.put('/:id', _loginMiddlewarejs2.default, _UsuariosControllerjs2.default.update);
 router.delete('/', _UsuariosControllerjs2.default.destroy);
-router.post('/', _loginMiddlewarejs2.default, _UsuariosControllerjs2.default.store);
+router.post('/', _UsuariosControllerjs2.default.store);
 
 router.get('/teste', _loginMiddlewarejs2.default, (req, res) => {
   res.json({ id: req.userId, username: req.username, email: req.email });
